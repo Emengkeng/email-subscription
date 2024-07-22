@@ -6,9 +6,11 @@ const path = require('path');
 var bodyParser = require('body-parser');
 var knex = require('./db/db');
 var subscribe = require('./subscribe');
+var cors = require("cors")
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors)
 
 app.use('/subscribe',subscribe);
 
