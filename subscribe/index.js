@@ -2,6 +2,13 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const router = express.Router();
 const User = require('../db/query/subscribe');
+const Queue = require('bull');
+
+
+const REDIS_URL = process.env.INTERNAL_REDIS_URL || 'redis://127.0.0.1:6379';
+// Create a Bull queue
+const emailQueue = new Queue('email-queue', REDIS_URL);
+
 
 function validUser(user){
 	const validEmail = typeof user.email == 'string' &&
@@ -65,26 +72,38 @@ router.post('/signup',(req,res) => {
 router.post('/contact', async (req, res) => {
 	const { name, email, message } = req.body;
 
+	// Add job to the queue
+	await emailQueue.add({
+		name,
+		email,
+		message
+	});
+	
+	res.status(200).send('Your message has been queued for processing');
+});
+
+// Process jobs from the queue
+emailQueue.process(async (job) => {
+	const { name, email, message } = job.data;
+
 	const mailOptions = {
 		from: 'noreply@exhert.com',
 		to: adminEmails.join(', '),
 		subject: 'New Contact Form Submission',
 		text: `
-		Name: ${name}
-		Email: ${email}
-		Message: ${message}
+			Name: ${name}
+			Email: ${email}
+			Message: ${message}
 		`
 	};
-
 	try {
 		await transporter.sendMail(mailOptions);
-		res.status(200).send('Message sent successfully');
+		console.log('Email sent successfully');
 	} catch (error) {
 		console.error('Error sending email:', error);
-		res.status(500).send('Error sending message', error);
+	  	throw error; // This will cause the job to be retried
 	}
 });
-
 
 //module.exports makes this router availabe across the app.
 module.exports = router;
