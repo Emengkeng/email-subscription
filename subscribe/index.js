@@ -14,7 +14,7 @@ function validUser(user){
 const transporter = nodemailer.createTransport({
 	host: 'smtp.titan.email',
 	port: 465,
-	secure: false,
+	secure: true,
 	auth: {
 		user: process.env.SMTP_EMAIL,
 		pass: process.env.SMTP_PASSWORD,
