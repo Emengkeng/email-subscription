@@ -18,6 +18,6 @@ app.get('/', function (req, res) {
   res.send('<a href="https://www.exhert.com">https://www.exhert.com</a>');
 });
 
-app.listen(process.env.PORT || 5000, function () {
-  console.log('Portfolio backend listening on port 5000!');
+app.listen(process.env.PORT || 8000, function () {
+  console.log('Portfolio backend listening on port 8000!');
 });
