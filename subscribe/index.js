@@ -13,6 +13,11 @@ function validUser(user){
 // Configure your email transporter
 const transporter = nodemailer.createTransport({
 	host: 'smtp.titan.email',
+	secureConnection: false,
+	tls: {
+		ciphers: "SSLv3",
+	},
+	requireTLS: true,
 	port: 465,
 	secure: true,
 	auth: {
