@@ -7,7 +7,19 @@ Sample Api to refer in postman:
 localhost:5000/subscribe/signup
 
 Sample request body:
+
+```JSON
 {"email" : "ravitejakolla@email.com"}
+```
+
+localhost:5000/subscribe/contact
+```JSON
+{
+    "email": "test@gmail.com",
+    "name": "name",
+    "message": "message"
+}
+```
 
 Technology Stack:
 NodeJs(20.13.1), ExpressJs, KnexJs, Mysql
