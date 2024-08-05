@@ -57,7 +57,7 @@ router.post('/signup',(req,res) => {
 });
 
 
-app.post('/contact', async (req, res) => {
+router.post('/contact', async (req, res) => {
 	const { name, email, message } = req.body;
 
 	const mailOptions = {
