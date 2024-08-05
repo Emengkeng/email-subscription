@@ -22,5 +22,5 @@ localhost:5000/subscribe/contact
 ```
 
 Technology Stack:
-NodeJs(20.13.1), ExpressJs, KnexJs, Mysql
+NodeJs(20.13.1), ExpressJs, KnexJs, Mysql, Redis
 
